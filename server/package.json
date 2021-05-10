@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Online store server side",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipalestine/ONLINE-STORE.git"
+  },
+  "author": "Ahmad Khajeh",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/ipalestine/ONLINE-STORE/issues"
+  },
+  "homepage": "https://github.com/ipalestine/ONLINE-STORE#readme"
+}
