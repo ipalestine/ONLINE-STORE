@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "server/index.js"
+  },
+  "dependencies": {
+    "apollo-datasource-mongodb": "^0.4.0",
+    "isemail": "^3.2.0",
+    "mongodb": "^3.6.6"
+  }
+}
