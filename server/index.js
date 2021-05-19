@@ -14,7 +14,7 @@ const server = new ApolloServer({
     dataSources,
     typeDefs,
     resolvers,
-    context: ({ req }) => auth(req),
+    context: ({ req }) => auth(req)
 })
 
 server.listen().then(({ url }) => {
