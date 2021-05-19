@@ -1,7 +1,7 @@
-const UserAPI = require('../../controllers/user')
+const User = require('../../controllers/user')
 
 module.exports = () => {
     return {
-        user: new UserAPI()
+        user: new User()
     }
 }

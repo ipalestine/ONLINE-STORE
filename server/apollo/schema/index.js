@@ -2,22 +2,19 @@ const { gql } = require('apollo-server');
 
 module.exports = gql`
 
-type Account {
-  username: String!
-  token: String
+type Query {
+  users:[User]!
 }
 
 type User {
-  id: ID
-  account: Account
-}
-
-type Query {
-  login(username: String!, password: String!): User
+	id: ID!
+	name: String!
+  token: String
+  roles: [String]
 }
 
 type Mutation {
-  create_user(username: String, password: String): AddUserMutationResponse
+  create_user(username: String, password: String, role: String!): CreateUserMutationResponse
 }
 
 interface MutationResponse {
@@ -26,7 +23,7 @@ interface MutationResponse {
   message: String!
 }
 
-type AddUserMutationResponse implements MutationResponse {
+type CreateUserMutationResponse implements MutationResponse {
   code: Int!
   success: Boolean!
   message: String!

@@ -1,20 +1,24 @@
 const userModel = require('../db/mongo/models/user');
 const { DataSource } = require('apollo-datasource');
 const hashPassword = require('../helpers/utils')
-const { generateJWT } = require('../auth')
+const { generateJWT } = require('../auth/security')
 
-class UserAPI extends DataSource {
+class User extends DataSource {
 
     initialize(config) {
 
         this.context = config.context;
     }
 
-    async create(username, password) {
+    async getAll() {
+        return await userModel.find()
+    }
+
+    async create(username, password, role) {
         try {
 
             //Check the validity of the username
-            const username_pattern = /^[a-z][\w-._]{20}+$/
+            const username_pattern = /^[a-z][\w-._]+$/
 
             if (!username_pattern.test(username)) {
                 return {
@@ -40,15 +44,15 @@ class UserAPI extends DataSource {
                     code: 400,
                     success: false,
                     message: `
-                                     Password must be at least 6 and at most 12 characters long.
-                                    `,
+                            Password must be at least 6 and at most 12 characters long.
+                            `,
                     user: null
                 }
             }
 
             //Check for duplicate username
             var user = await userModel.findOne({
-                username
+                name: username
             });
 
             if (user) {
@@ -66,31 +70,18 @@ class UserAPI extends DataSource {
             password = hashPassword(password)
 
             user = await userModel.create({
-                username,
-                password
+                name: username,
+                password,
+                roles: role
             })
 
-            if (user) {
+            user.token = generateJWT({ user })
 
-                ////Create user token
-                delete user.password
-                const token = generateJWT(user)
-
-                user = userModel.findByIdAndUpdate(
-                    user.id,
-                    {
-                        token,
-                        updated_at: Date.now()
-                    },
-                    { new: true }
-                )
-
-                return {
-                    code: 200,
-                    success: true,
-                    message: "User successfully added.",
-                    user
-                }
+            return {
+                code: 200,
+                success: true,
+                message: "User successfully added.",
+                user: user
             }
 
         } catch (error) {
@@ -104,4 +95,4 @@ class UserAPI extends DataSource {
     }
 }
 
-module.exports = UserAPI;
+module.exports = User;
