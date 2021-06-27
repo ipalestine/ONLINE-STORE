@@ -6,16 +6,19 @@ module.exports = {
 
     Query: {
         users: (root, args, { user, dataSources }) => {
-            console.log(user)
-            if (!user || !user.roles.includes('admin')) return null;
+            if (!user || !user.roles.includes('admin')) 
+                return new AuthenticationError('You must logged in!');
             return dataSources.user.getAll();
         }
     },
-
     Mutation: {
         create_user(_, { username, password, role }, { dataSources }) {
             return dataSources.user.create(username, password, role)
         }
     },
-
+    MutationResponse: {
+        __resolveType(mutationResponse, context, info) {
+            return null;
+        },
+    },
 }

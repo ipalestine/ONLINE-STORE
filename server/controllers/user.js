@@ -1,7 +1,7 @@
 const userModel = require('../db/mongo/models/user');
 const { DataSource } = require('apollo-datasource');
 const hashPassword = require('../helpers/utils')
-const { generateJWT } = require('../auth/security')
+const { generateJWT } = require('../helpers/security')
 
 class User extends DataSource {
 

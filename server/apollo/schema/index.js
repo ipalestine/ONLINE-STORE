@@ -1,6 +1,7 @@
 const { gql } = require('apollo-server');
 
 module.exports = gql`
+scalar Date
 
 type Query {
   users:[User]!
@@ -11,6 +12,8 @@ type User {
 	name: String!
   token: String
   roles: [String]
+  created: Date!
+  updated: Date!
 }
 
 type Mutation {
@@ -30,5 +33,5 @@ type CreateUserMutationResponse implements MutationResponse {
   user: User
 }
 
-scalar Date
+
 `;

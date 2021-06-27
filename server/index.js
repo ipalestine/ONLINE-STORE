@@ -1,20 +1,17 @@
 require('dotenv').config();
-
-//Connect to the Mongo Database
 require('./db/mongo').run();
 
-//Apollo server structure
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server')
 const typeDefs = require('./apollo/schema');
 const resolvers = require('./apollo/resolvers');
 const dataSources = require('./apollo/dataSources');
-const auth = require('./auth')
+const context = require('./apollo/context')
 
 const server = new ApolloServer({
     dataSources,
     typeDefs,
     resolvers,
-    context: ({ req }) => auth(req)
+    context
 })
 
 server.listen().then(({ url }) => {
